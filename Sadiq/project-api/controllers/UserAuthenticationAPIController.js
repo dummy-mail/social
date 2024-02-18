@@ -26,8 +26,7 @@ route.post("/login", async(req, res)=>{
     let Password = sha(req.body.password);
     let Gmail = req.body.email
     let account = await signup.find({ email : Gmail })
-    console.log(account?.length)
-    if(account?.length != 0){
+    if(account[0]?.length != 0){
         let obj = { id : account[0]?._id };
         let token = jwt.sign(obj, key);
         if(account[0]?.password == Password.trim()){

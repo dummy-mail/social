@@ -1,8 +1,8 @@
 let route = require("express").Router()
 let signup = require("../../model/userSignup");
 let jwt = require("jsonwebtoken")
-let key = require("../../config/token_keys")
-let frndReq = require('../../model/FrndReq');
+let key = require("../../config/token_keys");
+const FrndRequest = require("../../model/FrndRequest");
 
 
 //localhost:8080/api/user/authentication/social/site
@@ -11,31 +11,21 @@ route.get("/site", async(req, res)=>{
     let ID = jwt.decode(token, key);
     // console.log(ID)
     let allAccounts = await signup.find({});
-    let userAccounts = allAccounts.filter(user => user._id != ID.id);
-    let request = await frndReq.find({ sender: ID.id })
-    console.log(request);
+    let User = await FrndRequest.find({senderid : ID.id});
+    let userAccounts = allAccounts.filter(user=>user._id != ID.id)
     // console.log(userAccounts)
-    res.send({ accounts: userAccounts, req: request })
+    res.send({accounts : userAccounts, user : User})
 })
 
 route.post("/follow/:sender/:receiver", async(req, res)=>{
-    let Receiver = req.params.receiver;
+    let receiverId = req.params.receiver;
     let token = req.params.sender;
-    let Sender = jwt.decode(token, key);
-    let data = {
-        sender: Sender.id,
-        receiver: Receiver
+    let senderId = jwt.decode(token, key);
+    let reqData = {
+        receiverid : receiverId,
+        senderid : senderId.id
     }
-    await frndReq.create(data)
-    res.send({ status: 200 })
-
-})
-
-route.post("/unfollow/:sender/:receiver", async (req, res) => {
-    let Receiver = req.params.receiver;
-    let token = req.params.sender;
-    let Sender = jwt.decode(token, key);
-    await frndReq.deleteMany({ $and: [{ sender: Sender.id }, { receiver: Receiver }] })
+    await FrndRequest.create(reqData)
     res.send({ status : 200 })
     
 })
@@ -44,25 +34,17 @@ route.get("/request", async(req, res)=>{
     if(req.headers.authorization){
         let token = req.headers.authorization;
         let ID = jwt.decode(token, key);
-        let result = await signup.find({ _id : ID.id })
-        // console.log(result[0])
-        let FrndData = {}
-        if(result?.length != 0){
-        let Sender = result[0]
-        let Receiver = result[0]?.request.receiver
-            console.log(Sender)
-            console.log(Receiver)
-            let userID = await signup.find({ _id : Sender })
-            let friendID = await signup.find({ _id : Receiver })
-            if(userID?.length != 0 || friendID?.length != 0){
-                FrndData = {
-                    Sender : userID[0],
-                    Receiver : friendID[0]
-                }
+        let reqData = await FrndRequest.find({ senderid : ID.id })
+        let Sender = await signup.find({ _id : ID.id })
+        let allRequests = [];
+        reqData.forEach(value => {
+            if(reqData.senderid != value.receiverid){
+                allRequests = value.receiverid
             }
-        }
+        });
+        console.log(allRequests)
         
-        res.send({ status : 200, friendData : FrndData })
+        res.send({ status : 200 })
     }
 })
 

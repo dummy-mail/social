@@ -1,0 +1,32 @@
+{
+  "teacher": [
+    {
+      "id": "8286",
+      "name": "Jafar us sadiq",
+      "city": "indore",
+      "age": "20",
+      "salary": "28500"
+    },
+    {
+      "id": "1e58",
+      "name": "alefiya",
+      "city": "indore",
+      "age": "19",
+      "salary": "45000"
+    },
+    {
+      "id": "437b",
+      "name": "burhanuddin",
+      "city": "mumbai",
+      "age": "21",
+      "salary": "45000"
+    },
+    {
+      "id": "e5d7",
+      "name": "naved",
+      "city": "delhi",
+      "age": "24",
+      "salary": "38500"
+    }
+  ]
+}
