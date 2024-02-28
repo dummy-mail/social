@@ -1,6 +1,10 @@
 import { NavLink } from "react-router-dom";
+import { UseSelector, useSelector } from "react-redux";
 
 let Header = () =>{
+
+    let allData = useSelector(state=>state.InboxSlice)
+
     return(
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
@@ -25,14 +29,23 @@ let Header = () =>{
                     {/* <li className="nav-item">
                     <NavLink className="nav-link" to="/ofc">CalcuLator</NavLink>
                     </li> */}
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                     <NavLink className="nav-link" to="/teacher">Teacher</NavLink>
                     </li>
                     <li className="nav-item">
                     <NavLink className="nav-link" to="/teacher/add">Add Teacher</NavLink>
-                    </li>
+                    </li> */}
                     <li className="nav-item">
                     <NavLink className="nav-link" to="/login">User Login</NavLink>
+                    </li>
+                    <li className="nav-item">
+                    <NavLink className="nav-link" to="/compa">User 1</NavLink>
+                    </li>
+                    <li className="nav-item">
+                    <NavLink className="nav-link" to="/compb">User 2</NavLink>
+                    </li>
+                    <li className="nav-item">
+                    <NavLink className="nav-link" to="/inbox">Inbox({allData.length})</NavLink>
                     </li>
                     <li className="nav-item">
                     <NavLink className="nav-link" to="/game1">Game1</NavLink>
