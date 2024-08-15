@@ -23,6 +23,7 @@ route.post("/signup", async(req, res)=>{
 
 //localhost:8080/api/user/authentication/login
 route.post("/login", async(req, res)=>{
+    // console.log(req.body)
     let Password = sha(req.body.password);
     let Gmail = req.body.email
     let account = await signup.find({ email : Gmail })
@@ -47,7 +48,7 @@ route.get("/accounts" , async(req, res)=>{
         // console.log(ID.id)
         let userData = await signup.find({ _id : ID.id });
         if(userData?.length[0] != 0){
-            res.send({ status : 200, errType : 0, account : userData[0] })
+            res.send({ status : 200, errType : 0, loginUser : userData[0] })
         }else{
             res.send({ status : 403, errType : 1 })
         }

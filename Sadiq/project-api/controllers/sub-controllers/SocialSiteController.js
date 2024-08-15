@@ -9,26 +9,29 @@ const FrndRequest = require("../../model/FrndRequest");
 route.get("/site", async(req, res)=>{
     let token = req.headers.authorization;
     let ID = jwt.decode(token, key);
-    // console.log(ID)
     let allAccounts = await signup.find({});
-    let User = await FrndRequest.find({senderid : ID.id});
-    let userAccounts = allAccounts.filter(user=>user._id != ID.id)
-    // console.log(userAccounts)
-    res.send({accounts : userAccounts, user : User})
+    let User = await FrndRequest.find({senderid : ID?.id});
+    let receiverData = await FrndRequest.find({receiverid : ID?.id});
+    let userAccounts = allAccounts.filter(user=>user?._id != ID?.id)
+    res.send({accounts : userAccounts, senderData : User, receiverData : receiverData})
 })
 
-route.post("/follow/:sender/:receiver", async(req, res)=>{
-    let receiverId = req.params.receiver;
-    let token = req.params.sender;
-    let senderId = jwt.decode(token, key);
-    let reqData = {
-        receiverid : receiverId,
-        senderid : senderId.id
+route.post("/follow", async(req, res)=>{
+    let { senderid, receiverid } = req.body;
+    let allReq = await FrndRequest.findOne({ receiverid : receiverid, senderid : senderid });
+    if(allReq?.length === 0 || allReq === null ){
+        await FrndRequest.create(req.body)
+        res.send({ status : 200 })
+    }else{
+        res.send({ status : 404 })
     }
-    await FrndRequest.create(reqData)
+});
+
+route.post("/cancelreq", async(req, res)=>{
+    let { senderid, receiverid } = req.body;
+    await FrndRequest.deleteMany({ receiverid : receiverid, senderid : senderid })
     res.send({ status : 200 })
-    
-})
+});
 
 route.get("/request", async(req, res)=>{
     if(req.headers.authorization){

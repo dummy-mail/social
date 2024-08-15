@@ -4,33 +4,36 @@ import { API_URL } from '../../../util/API'
 import { useNavigate } from 'react-router-dom'
 import Header from '../shared/Header'
 import Footer from '../shared/Footer'
+import { useSelector } from 'react-redux'
 
 const MyAccount = () => {
 
   let navigate = useNavigate();
-  let [ userData, setUserData ] = useState({});
   let [ showAlert, setShowAlert ] = useState(false);
   let [ alertMsg, setAlertMsg ] = useState("");
+  
   useEffect(()=>{
-    let ID = localStorage.getItem('Token')
-    axios.get(`${API_URL}/user/authentication/accounts`, {  headers : { Authorization : ID }}).then(Response =>{
-      if(Response.data.status === 200){
-        setUserData(Response.data.account)
-      }else if(Response.data.status === 403){
-        setShowAlert(true);
-        setAlertMsg("Error 403! account not found")
-        setTimeout(()=>{
-          setShowAlert(false)
-        }, 3000);
-      }else{
-        setShowAlert(true);
-        setAlertMsg("Error 404! account not found")
-        setTimeout(()=>{
-          setShowAlert(false)
-        }, 3000);
-      }
-    })
+    // let ID = localStorage.getItem('Token')
+    // axios.get(`${API_URL}/user/authentication/accounts`, {  headers : { Authorization : ID }}).then(Response =>{
+    //   if(Response.data.status === 200){
+    //     setUserData(Response.data.account)
+    //   }else if(Response.data.status === 403){
+    //     setShowAlert(true);
+    //     setAlertMsg("Error 403! account not found")
+    //     setTimeout(()=>{
+    //       setShowAlert(false)
+    //     }, 3000);
+    //   }else{
+    //     setShowAlert(true);
+    //     setAlertMsg("Error 404! account not found")
+    //     setTimeout(()=>{
+    //       setShowAlert(false)
+    //     }, 3000);
+    //   }
+    // })
   }, [])
+  let userData = useSelector(state => state.UserDataSlice)
+
 
   let pageData = [
     {
