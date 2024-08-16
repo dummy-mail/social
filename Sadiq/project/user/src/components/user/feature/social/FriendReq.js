@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from '../../shared/Header'
 import Footer from '../../shared/Footer'
 import { useDispatch, useSelector } from 'react-redux'
-import { cancelReq } from '../../../../redux/AllUserDataSlice'
+import { acceptRec, cancelReq, rejectRec } from '../../../../redux/AllUserDataSlice'
 
 const FriendReq = () => {
 
@@ -32,10 +32,19 @@ let cancelRequest = async(receiverId) =>{
 
 let rejectRequest = async(receiverId) =>{
     let obj = {
-        receiverid : receiverId,
-        senderid : userData?._id
+        receiverid : userData?._id,
+        senderid : receiverId
     }
-    dispatch(cancelReq(obj))
+    // console.log(obj)
+    dispatch(rejectRec(obj))
+}
+
+let acceptRequest = async(receiverId) =>{
+  let obj = {
+    receiverid : userData?._id,
+    senderid : receiverId
+  }
+  dispatch(acceptRec(obj))
 }
 
   let checkIfPresentSend = receiverData?.filter(value => onlyId?.includes(value?.senderid))
@@ -62,7 +71,8 @@ let rejectRequest = async(receiverId) =>{
                           return(
                             <tr>
                               <td>{`${value?.firstname} ${value?.lastname}`}</td>
-                              <td><button className='btn btn-danger' onClick={rejectRequest(value?._id)}>Reject</button></td>
+                              <td><button className='btn btn-danger' onClick={()=>rejectRequest(value?._id)}>Reject</button></td>
+                              <td><button className='btn btn-primary' onClick={()=>acceptRequest(value?._id)}>Accept</button></td>
                             </tr>
                           )
                         }) :
