@@ -9,6 +9,7 @@ let signupSchema = mongoose.Schema({
     dob : Date,
     state : String,
     city : String,
+    socketid : {type : String, default : ""},
     status : {type : Number, default : "3"},
     address : {type : String, default : ""},
     contact : {type : String, default : ""},

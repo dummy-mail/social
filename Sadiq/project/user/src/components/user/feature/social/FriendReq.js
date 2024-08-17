@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import Header from '../../shared/Header'
 import Footer from '../../shared/Footer'
 import { useDispatch, useSelector } from 'react-redux'
-import { acceptRec, cancelReq, rejectRec } from '../../../../redux/AllUserDataSlice'
+import { acceptRec, cancelReq, handleAcceptReq, handleReceiveReq, rejectReq } from '../../../../redux/AllUserDataSlice'
+import socket from '../../../../util/Socket';
+
 
 const FriendReq = () => {
 
@@ -11,6 +13,7 @@ const FriendReq = () => {
   let senderData = useSelector(state => state.AllUserDataSlice?.senderData)
   let receiverData = useSelector(state => state.AllUserDataSlice?.receiverData)
   let userData = useSelector(state => state.UserDataSlice)
+  let myID = userData?._id;
     
     
   let onlyId = allData?.map(value => value._id);
@@ -30,13 +33,12 @@ let cancelRequest = async(receiverId) =>{
     dispatch(cancelReq(obj))
 }
 
-let rejectRequest = async(receiverId) =>{
+let rejectRequest = async(senderId) =>{
     let obj = {
         receiverid : userData?._id,
-        senderid : receiverId
+        senderid : senderId
     }
-    // console.log(obj)
-    dispatch(rejectRec(obj))
+    dispatch(rejectReq(obj))
 }
 
 let acceptRequest = async(receiverId) =>{
@@ -53,6 +55,27 @@ let acceptRequest = async(receiverId) =>{
   if(checkIfPresentSend.length != 0){
     recRequests = allData?.filter(value => checkIfPresentSend.includes(value?._id))
   }
+
+
+  useEffect(()=>{
+
+
+    // Listen for follow request event
+    socket.on('receiveFollowRequest', ({ senderId }) => {
+        // Handle follow request notification (e.g., show a notification or update UI)
+        let obj = {
+          senderid : senderId,
+          receiverid : myID
+        }
+        dispatch(handleReceiveReq(obj))
+    });
+
+    return () => {
+        // Cleanup listeners on component unmount
+        socket.off('receiveFollowRequest');
+        socket.off('followRequestAccepted');
+    };
+}, [socket, dispatch])
 
   return (
     <>

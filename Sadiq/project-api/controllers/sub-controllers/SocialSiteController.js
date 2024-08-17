@@ -19,7 +19,7 @@ route.get("/site", async(req, res)=>{
         email: account?.email,
         lastname: account?.lastname,
         followerlist: account?.followerlist,
-        followinglist: account?.followinglist,
+        followinglist: account?.followinglist
         // Add other necessary fields here
     }));
     let senderReceiverData = {
@@ -103,6 +103,7 @@ route.post("/acceptrec", async (req, res) => {
 route.post("/unfollow", async(req, res)=>{
     let { senderid, receiverid } = req.body;
     await signup.updateOne({ _id : senderid }, { $pull : {followinglist : receiverid} })
+    await signup.updateOne({ _id : receiverid }, { $pull : {followerlist : senderid} })
     res.send({ status : 200 })
 })
 

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Footer from '../../shared/Footer'
 import Header from '../../shared/Header'
-import axios from 'axios'
-import { API_URL } from '../../../../util/API'
+import socket from '../../../../util/Socket';
 import { useDispatch, useSelector } from 'react-redux';
-import { cancelReq, sendReq, unFollowReq } from '../../../../redux/AllUserDataSlice'
+import { cancelReq, handleAcceptReq, handleReceiveReq, handleRejectReq, sendReq, unFollowReq } from '../../../../redux/AllUserDataSlice'
 
 
 const SocialSite = () => {
@@ -45,6 +44,39 @@ const SocialSite = () => {
         // console.log(obj)
         dispatch(unFollowReq(obj))
     }
+
+    useEffect(()=>{
+        // Listen for follow request event
+        // socket.on('receiveFollowRequest', ({ senderId }) => {
+        //     // Handle follow request notification (e.g., show a notification or update UI)
+        //     dispatch(handleReceiveReq(senderId))
+        // });
+
+           // Listen for follow request accepted event
+        socket.on('followRequestAccepted', ({ receiverId }) => {
+          // Update the button text to "Followed"
+            let obj = {
+            senderid : userData?._id,
+            receiverid : receiverId
+            }
+            dispatch(handleAcceptReq(obj));
+        });
+
+        socket.on('rejectRequestDone', ({ receiverId }) => {
+            let obj = {
+                senderid : userData?._id,
+                receiverid : receiverId
+                }
+                dispatch(handleRejectReq(obj))
+        })
+  
+
+        return () => {
+            // Cleanup listeners on component unmount
+            socket.off('receiveFollowRequest');
+            socket.off('followRequestAccepted');
+        };
+    }, [])
 
   return (
     <>
