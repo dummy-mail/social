@@ -33,7 +33,7 @@ io.on('connection', (socket)=>{
 
     socket.on('updateDatabase', async({userId}) =>{
         let ID = jwt.decode(userId, key);
-        await signup.updateOne({_id : ID.id}, { $set: { socketid: socket.id } });
+        await signup.updateOne({_id : ID?.id}, { $set: { socketid: socket.id } });
     })
 
     // Handle follow request
@@ -47,7 +47,6 @@ io.on('connection', (socket)=>{
     socket.on('acceptFollowRequest', async({ senderId, receiverId }) => {
         let senderData = await signup.findOne({_id : senderId})
         // Emit an event to the sender
-        console.log(senderData?.socketid)
         io.to(senderData?.socketid).emit('followRequestAccepted', { receiverId });
     });
 
@@ -55,7 +54,6 @@ io.on('connection', (socket)=>{
     socket.on('rejectFollowRequest', async({ senderId, receiverId }) => {
         let senderData = await signup.findOne({_id : senderId})
         // Emit an event to the sender
-        console.log(senderData?.socketid)
         io.to(senderData?.socketid).emit('rejectRequestDone', { receiverId });
     });
 

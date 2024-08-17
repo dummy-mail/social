@@ -46,11 +46,6 @@ const SocialSite = () => {
     }
 
     useEffect(()=>{
-        // Listen for follow request event
-        // socket.on('receiveFollowRequest', ({ senderId }) => {
-        //     // Handle follow request notification (e.g., show a notification or update UI)
-        //     dispatch(handleReceiveReq(senderId))
-        // });
 
            // Listen for follow request accepted event
         socket.on('followRequestAccepted', ({ receiverId }) => {
@@ -73,7 +68,7 @@ const SocialSite = () => {
 
         return () => {
             // Cleanup listeners on component unmount
-            socket.off('receiveFollowRequest');
+            socket.off('rejectRequestDone');
             socket.off('followRequestAccepted');
         };
     }, [])
