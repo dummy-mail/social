@@ -9,7 +9,6 @@ let jwt = require("jsonwebtoken")
 let cors = require('cors')
 let http = require('http')
 const { Server } = require('socket.io');
-const socketIo = require('socket.io');
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
@@ -30,7 +29,6 @@ app.use(cors({
 
 io.on('connection', (socket)=>{
     // console.log("new user is connected")
-
     socket.on('updateDatabase', async({userId}) =>{
         let ID = jwt.decode(userId, key);
         await signup.updateOne({_id : ID?.id}, { $set: { socketid: socket.id } });
