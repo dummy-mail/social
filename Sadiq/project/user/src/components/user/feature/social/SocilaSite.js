@@ -71,7 +71,7 @@ const SocialSite = () => {
             socket.off('rejectRequestDone');
             socket.off('followRequestAccepted');
         };
-    }, [])
+    }, [dispatch, socket])
 
   return (
     <>

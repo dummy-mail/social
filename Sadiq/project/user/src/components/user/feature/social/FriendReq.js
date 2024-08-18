@@ -21,8 +21,8 @@ const FriendReq = () => {
   let checkIfPresentrec = senderData?.filter(value => onlyId?.includes(value?.receiverid))
   checkIfPresentrec = senderData?.map(value => value?.receiverid)
   let sendRequests = [];
-  if(checkIfPresentrec.length != 0){
-    sendRequests = allData.filter(value => checkIfPresentrec.includes(value?._id))
+  if(checkIfPresentrec?.length != 0){
+    sendRequests = allData?.filter(value => checkIfPresentrec.includes(value?._id))
   }
 
 let cancelRequest = async(receiverId) =>{
@@ -52,7 +52,7 @@ let acceptRequest = async(receiverId) =>{
   let checkIfPresentSend = receiverData?.filter(value => onlyId?.includes(value?.senderid))
   checkIfPresentSend = receiverData?.map(value => value?.senderid)
   let recRequests = []
-  if(checkIfPresentSend.length != 0){
+  if(checkIfPresentSend?.length != 0){
     recRequests = allData?.filter(value => checkIfPresentSend.includes(value?._id))
   }
 
