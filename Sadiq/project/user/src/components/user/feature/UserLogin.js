@@ -103,9 +103,12 @@ const UserLogin = () => {
               </div>
               <div className='card-footer bg-primary'>
                 <button type='submit' className=' btn btn-primary' style={{display:"inline", float:"left"}}>LOGIN</button>
+                <NavLink to="recoveraccount"  
+                  className='btn text-warning'>forgot password
+                  </NavLink>
                 <NavLink to="/usersignup" className="btn text-light" 
                   style={{display:"inline", float:"right"}}
-                  data-toggle="modal" data-target="#Open"
+                  // data-toggle="modal" data-target="#Open"
                   type='button'
                   >
                   create account
@@ -116,7 +119,7 @@ const UserLogin = () => {
           </div>
         </div>
       </div>
-      <Modal />
+      {/* <Modal /> */}
     <Footer />
 
       {/* <div className="container" id="container">
@@ -166,7 +169,7 @@ const UserLogin = () => {
             </div>
           </div>
         </div>
-      </div> */}
+      </div>  */}
     </>
   )
 }

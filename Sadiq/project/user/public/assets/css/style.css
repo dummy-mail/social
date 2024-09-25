@@ -48,6 +48,245 @@ h6 {
 	font-weight: 400;
 	font-family: "Nunito Sans", sans-serif;
 }
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.popup h3 {
+    margin-top: 0;
+}
+
+.popup ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.popup ul li {
+    background: #f4f4f4;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.header-lay{
+    background-color: #000;
+    padding: 15px;
+}
+.header-lay img{
+    width: 47%;
+}
+.header-lay h1{
+    font-family: "Jua", sans-serif;
+    font-size: 40px;
+    color: #fff;
+    margin: 0;
+}
+.jutify-end{
+    justify-content: end;
+}
+
+.main-sec{
+    background-color: #002845;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.banner-sec{
+    background-image: url('../img/referral/abstract-luxury-gradient-blue-background-smooth-dark-blue-with-black-vignette-studio-banner\ 1.png');
+    background-size: cover;
+    position: relative;
+    display: grid;
+    border-radius: 15px;
+    grid-template-columns: 1fr 2fr 1fr;
+    padding: 44px 35px !important;
+}
+.banner-sec .img-1{
+    position: absolute;
+    top: -26px;
+    width: 15%;
+    left: -11.5%;
+}
+
+.banner-sec h1{
+    font-family: "Kelly Slab", sans-serif;
+    color: #fff;
+    font-size: 144px;
+    text-align: center;
+    margin: 0;
+}
+.banner-sec h6{
+    font-family: "Jua", sans-serif;
+    color: #EFA47C;
+    font-size: 24px;
+    text-align: center;
+    margin-top: -18px;
+}
+
+.banner-sec .box-1{
+    border: 1px solid #fff;
+    border-radius: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 10px;
+    width: 90%;
+    margin-top: 120px;
+}
+
+.banner-sec .box-1 h4{
+    font-family: "Kelly Slab", sans-serif;
+    color: #fff;
+    font-size: 26px;
+    margin: 0;
+    text-align: center;
+}
+
+.box-2{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 120px;
+}
+.box-2 h5{
+    font-family: "Kelly Slab", sans-serif;
+    color: #fff;
+    margin: 0;
+}
+.box-2 p{
+    font-family: "Kelly Slab", sans-serif;
+    color: #FDC410;
+    margin: 0;
+
+}
+.box-2 div{
+    display:flex ;
+    align-items: center;
+    gap: 10px;
+}
+.list-sec{
+    background-color: #0B45B4;
+    border-radius: 20px;
+    padding: 50px;
+}
+.gap-40{
+	flex-direction: column;
+    gap: 40px;
+}
+.list-sec h1{
+    font-family: "Jua", sans-serif;
+    color: #fff;
+    font-size: 40px;
+    /* text-align: center; */
+    margin: 0;
+}
+
+.list-sec .list-box{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0px;
+}
+
+.list-box .list-box-1{
+    width: 100%;
+    display: flex;
+    justify-content:space-between ;
+    align-items: center;
+    padding: 20px;
+    background-color: #091e2dc7;
+    border: 3px solid #4F98E7;
+    border-radius: 25px;
+}
+.list-box .list-box-2{
+    width: 100%;
+    display: flex;
+    justify-content:space-between ;
+    align-items: center;
+    padding: 20px;
+    background-color: #091e2d87;
+    border: 3px solid #4F98E7;
+    border-radius: 25px;
+}
+.list-box .list-box-3{
+    width: 100%;
+    display: flex;
+    justify-content:space-between ;
+    align-items: center;
+    padding: 20px;
+    background-color: #091e2d36;
+    border: 3px solid #4F98E7;
+    border-radius: 25px;
+}
+
+.list-sec h4{
+    font-family: "Jua", sans-serif;
+    color: #fff;
+    font-size: 28px;
+    margin: 0;
+}
+.list-sec span{
+    font-family: "Kelly Slab", sans-serif;
+    color: #FDC410;
+    font-size: 28px;
+    margin: 0;
+}
+.ref-modal .ref-input{
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	justify-content: space-between;
+	border-radius: 10px;
+}
+
+.ref-modal .ref-btn{
+	background-color: #FDC410;
+    border-radius: 10px;
+    padding: 10px;
+}
+.ref-modal .ref-input{
+	width: 100%;
+    height: 48px;
+    padding: 0px 0px 0px 20px;
+	background-color: #fff;
+
+}
+.ref-modal-lay .modal-dialog{
+	pointer-events: all;
+}
+.ref-modal .ref-footer{
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	border-top: 2px solid #fff;
+	padding: 20px;
+}
+.ref-input .input{
+	border: none;
+}
+
+.ref-modal{
+	background-color:#0B45B4;
+	border-radius: 20px;
+	padding: 30px;
+}
+.ref-modal label{
+	font-family: "Jua", sans-serif;
+    color: #fff;
+    font-size: 24px;
+    margin: 0;
+}
 
 h1 {
 	font-size: 70px;

@@ -1,5 +1,5 @@
 import React from 'react'
-import Modal from '../shared/props/UserSignupModal'
+import SignupModal from '../shared/props/UserSignupModal'
 import { NavLink, useNavigate} from "react-router-dom";
 import {useFormik} from 'formik'
 import { useState, useEffect } from "react";
@@ -10,6 +10,7 @@ import Validation from '../../../schemas/SignupSchema';
 import { API_URL } from '../../../util/API';
 import Header from '../shared/Header';
 import Footer from '../shared/Footer';
+import {saveAs} from 'file-saver'
 
 
 let UserSignup = () =>{
@@ -18,6 +19,8 @@ let UserSignup = () =>{
     let navigate = useNavigate();
     let [indiaCity, setIndiaCity] = useState([]);
     let [indiaState, setIndiaState] = useState([]);
+    let [provideCode, setProvideCode] = useState([]);
+    let [showPopUp, setShowPopUp] = useState(false);
 
     let State = async()=>{
         let response = await axios.get(`${API_URL}/indiacity/state`)
@@ -60,16 +63,24 @@ let UserSignup = () =>{
                 if(response.data.success === false){
                     setCheckEmail(1)
                 }else{
-                    setTimeout(()=>{
-                        let resetBtn = document.getElementById('resetBtn')
-                        resetBtn.click();
-                        navigate(`/userlogin`)
-                    }, 1000);
+                    console.log(response.data.recoverycode)
+                    setProvideCode(response.data.recoverycode)
+                    setShowPopUp(true)
                 }
             })
         }
     })
     // data post for signup section ends
+
+    const downloadCodes = () => {
+        const blob = new Blob([provideCode.join('\n')], { type: 'text/plain;charset=utf-8' });
+        saveAs(blob, 'recovery_codes.txt');
+        // navigate(`/userlogin`)
+        setTimeout(()=>{
+            setShowPopUp(false)
+            navigate(`/userlogin`)
+        },1000)
+    };
 
   return (
     <>
@@ -193,8 +204,21 @@ let UserSignup = () =>{
                 </div>
             </div>
         </div>
-        <Modal />
+        <SignupModal />
         <Footer />
+
+        {showPopUp ? (
+                <div className="popup">
+                    <div><h3>Recovery Codes</h3><button className='btn 'onClick={()=>{setShowPopUp(false)}}>X</button></div>
+                    <ul>
+                        {provideCode?.map((code, index) => (
+                            <li key={index}>{code}</li>
+                        ))}
+                    </ul>
+                    <button className='btn btn-secondary' onClick={downloadCodes}>Download Codes</button>
+                </div>
+            ) : null }
+        
     </>
   )
 }

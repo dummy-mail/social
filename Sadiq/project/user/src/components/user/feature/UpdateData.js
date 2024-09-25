@@ -15,7 +15,7 @@ const UpdateData = () => {
 let IDPost = async() =>{
   let ID = localStorage.getItem('Token')
   let response = await axios.get(`${API_URL}/user/authentication/accounts`, { headers : {Authorization : ID} })
-//   console.log(response.data)
+  // console.log(response.data)
   setUserData(response.data.account)
 }
   useEffect(()=>{

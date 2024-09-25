@@ -6,18 +6,37 @@ module.exports = (io) => {
     let signup = require("../model/userSignup");
     let key = require("../config/token_keys");
     let randomNum = require("random-number");
+    const generateRandomString = require('randomstring')
     
     //localhost:8080/api/user/authentication/social
     route.use("/social", require("./sub-controllers/SocialSiteController")(io))
+
+    //localhost:8080/api/user/authentication/referral
+    route.use("/referral", require("./sub-controllers/ReferralSystemController"))
     
     //localhost:8080/api/user/authentication/signup
     route.post("/signup", async(req, res)=>{
         req.body.password = sha(req.body.password);
         let email = req.body.email;
         let account = await signup.find({ email : email })
-        if(account.length == 0){
+        if(account?.length == 0){
+        // creating user
             await signup.create(req.body)
-            res.send({success : true})
+
+        // generating recoverycode
+            let safeCode = [];
+            for(let i = 0 ; i <= 4 ; i++) {
+                let code = generateRandomString.generate(7);
+                safeCode.push(code)
+            }
+
+        // generating referral code
+        let generateNum = randomNum.generator({min : 1000000 , max : 9999999, integer : true});
+        let referralcode = `REF${generateNum()}`
+
+            await signup.updateOne({email : email}, {$push : { recoverycode : safeCode }} )
+            await signup.updateOne({email : email}, {$set: { referralcode : referralcode }} )
+            res.send({ success : true, recoverycode : safeCode })
         }else{
             res.send({ success : false })
         }

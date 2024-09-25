@@ -16,6 +16,14 @@ let handleSocketId = createAsyncThunk('handleSocketId', () =>{
     return socket.id
 })
 
+const userRefSubmit = createAsyncThunk('userRefSubmit', async(object) =>{
+    let response = await axios.post(`${API_URL}/user/authentication/referral`, object )
+    if(response.data.status === 200) {
+        let {referralcode} = object?.formdata;
+        return referralcode
+    }
+})
+
 
 let UserDataSlice = createSlice({
     name : "userData",
@@ -27,11 +35,11 @@ let UserDataSlice = createSlice({
         builder.addCase(clearUserData.fulfilled, (state, action)=>{
             return []
         });
-        // builder.addCase(handleSocketId.fulfilled, (state, action)=>{
-        //     return state[0].otp = action?.payload
-        // });
+        builder.addCase(userRefSubmit.fulfilled, (state, action)=>{
+            state.usereferral = action.payload;
+        });
     }
 });
 
 export default UserDataSlice.reducer;
-export { getLoginUserData, clearUserData};
+export { getLoginUserData, clearUserData, userRefSubmit};

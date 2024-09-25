@@ -1,9 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import Header from '../shared/Header'
 import Footer from '../shared/Footer'
+import { useSelector } from 'react-redux'
 
 const UserSetting = () => {
+
+    let [showModal, setShowModal] = useState("");
+
+    let userData = useSelector(state => state.UserDataSlice)
+
+    useEffect(()=>{
+        if(userData?.usereferral) {
+            setShowModal("");
+        } else {
+            setShowModal("modal")
+        }
+    }, [])
+
+
   return (
     <>
     <Header />
@@ -26,6 +41,9 @@ const UserSetting = () => {
                                 <thead>
                                     <tr>
                                         <th><NavLink to="/user/cart" className="btn text-light" ><i class="fa fa-lg fa-shopping-cart"></i> Cart</NavLink></th>
+                                    </tr>
+                                    <tr>
+                                        <th><NavLink to="/user/referral"  data-toggle={showModal} data-target="#Open" className="btn text-light" >Referral System</NavLink></th>
                                     </tr>
                                 </thead>
                                 <thead>

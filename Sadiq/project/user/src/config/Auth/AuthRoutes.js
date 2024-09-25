@@ -13,6 +13,7 @@ import SocialSite from '../../components/user/feature/social/SocilaSite'
 import SocialProfile from '../../components/user/feature/social/SocialProfile'
 import FriendList from '../../components/user/feature/social/FriendList'
 import FriendReq from '../../components/user/feature/social/FriendReq'
+import ReferralProfile from '../../components/user/feature/referral/ReferralProfile'
 
 const AuthRoutes = [
   {
@@ -70,6 +71,10 @@ const AuthRoutes = [
   {
     path : 'friend-list',
     element : <FriendList />
+  },
+  {
+    path : 'referral',
+    element : <ReferralProfile />
   }
 ]
 

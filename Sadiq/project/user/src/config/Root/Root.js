@@ -5,6 +5,7 @@ import UserSignup from '../../components/user/feature/UserSignup'
 import Shop from '../../components/user/feature/Shop'
 import About from '../../components/user/feature/About'
 import AdminLogin from '../../components/admin/feature/AdminLogin'
+import RecoverAccount from '../../components/user/feature/RecoverAccount'
 
 const Root = [
   {
@@ -30,7 +31,12 @@ const Root = [
   {
     path : '/adminlogin',
     element : <AdminLogin />
-  }
+  },
+  {
+    path : '/recoveraccount',
+    element : <RecoverAccount />
+  },
+  
 ]
 
 export default Root

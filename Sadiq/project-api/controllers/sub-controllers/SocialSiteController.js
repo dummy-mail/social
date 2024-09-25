@@ -21,7 +21,10 @@ module.exports = (io) => {
             email: account?.email,
             lastname: account?.lastname,
             followerlist: account?.followerlist,
-            followinglist: account?.followinglist
+            followinglist: account?.followinglist,
+            referrals: account?.referrals,
+            referralcode: account?.referralcode,
+            usereferral: account?.usereferral,
             // Add other necessary fields here
         }));
         let senderReceiverData = {
@@ -109,16 +112,10 @@ module.exports = (io) => {
         res.send({ status : 200 })
     })
 
+    const handleSocialSite = (socket, io) =>{
 
-    io.on('connection', (socket)=>{
-        // console.log("new user is connected")
-        socket.on('updateDatabase', async({userId}) =>{
-            let ID = jwt.decode(userId, key);
-            await signup.updateOne({_id : ID?.id}, { $set: { socketid: socket.id } });
-        })
-    
-        // Handle follow request
-        socket.on('sendFollowRequest', async({ senderId, receiverId }) => {
+         // Handle follow request
+         socket.on('sendFollowRequest', async({ senderId, receiverId }) => {
             let receiverData = await signup.findOne({_id : receiverId})
             // Emit an event to the receiver
             io.to(receiverData?.socketid).emit('receiveFollowRequest', { senderId });
@@ -137,6 +134,17 @@ module.exports = (io) => {
             // Emit an event to the sender
             io.to(senderData?.socketid).emit('rejectRequestDone', { receiverId });
         });
+
+    }
+
+    io.on('connection', (socket)=>{
+        // console.log("new user is connected")
+        socket.on('updateDatabase', async({userId}) =>{
+            let ID = jwt.decode(userId, key);
+            await signup.updateOne({_id : ID?.id}, { $set: { socketid: socket.id } });
+        })
+    
+        handleSocialSite(socket, io)
     
         socket.on('disconnect', () => {
             // console.log('User disconnected');
